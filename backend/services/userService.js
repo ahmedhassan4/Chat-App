@@ -12,7 +12,7 @@ export const createUser = async (userData) => {
     role: userData.role,
     password: userData.password,
     passwordConfirm: userData.passwordConfirm,
+    passwordChangedAt: userData.passwordChangedAt,
   });
-
   return newUser;
 };
