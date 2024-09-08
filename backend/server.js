@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 
 import authRouter from "./router/auth.routes.js";
 import messageRouter from "./router/message.routes.js";
+import userRouter from "./router/user.routes.js";
 import connectToDatabase from "./db/connectToDatabase.js";
 import gobalErrorHandler from "./controllers/error.controllers.js";
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/messages", messageRouter);
+app.use("/api/v1/users", userRouter);
 
 app.use(gobalErrorHandler);
 
