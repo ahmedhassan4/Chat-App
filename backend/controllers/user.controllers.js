@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
+import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
 
 const filterObj = (obj, ...allowedFields) => {
   const filteredObj = {};
@@ -53,6 +55,18 @@ export const getAllUsers = catchAsync(async (req, res, next) => {
     results: users.length,
     data: {
       users,
+    },
+  });
+});
+
+export const getUsersForSidebar = catchAsync(async (req, res, next) => {
+  const LoggedInuserId = req.user._id;
+  const filteredusers = await User.find({ _id: { $ne: LoggedInuserId } });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      filteredusers,
     },
   });
 });
