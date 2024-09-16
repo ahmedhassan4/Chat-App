@@ -31,9 +31,7 @@ export const sendMessage = catchAsync(async (req, res, next) => {
   //socket IO HERE!!
   await Promise.all([conversation.save(), newMessage.save()]);
 
-  res.status(200).json({
-    message: newMessage,
-  });
+  res.status(201).json(newMessage);
 });
 
 export const getMessages = catchAsync(async (req, res, next) => {
@@ -51,8 +49,5 @@ export const getMessages = catchAsync(async (req, res, next) => {
 
   const messages = conversation.messages;
 
-  res.status(200).json({
-    status: "success",
-    data: messages,
-  });
+  res.status(200).json(messages);
 });

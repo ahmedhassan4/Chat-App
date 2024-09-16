@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 
 export const createUser = async (userData) => {
-  const profilePic = `https://robohash.org/${userData.username}`;
+  const profilePic = `https://ui-avatars.com/api/?name=${userData.username}`;
 
   const newUser = await User.create({
     fullName: userData.fullName,
