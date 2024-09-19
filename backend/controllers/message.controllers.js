@@ -43,10 +43,16 @@ export const getMessages = catchAsync(async (req, res, next) => {
     participants: { $all: [userToChatId, senderId] },
   }).populate("messages");
 
+  
+  if (!conversation) {
+    conversation = await Conversation.create({
+      participants: [senderId, receiverId],
+    });
+  }
+  
   if (!conversation) {
     return next(new AppError("conversation not found !!"));
   }
-
   const messages = conversation.messages;
 
   res.status(200).json(messages);

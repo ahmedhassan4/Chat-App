@@ -3,7 +3,7 @@ import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
 
 const useGetMessages = () => {
-  const [loding, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { messages, setMessages, selectedConversation } = useConversation();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const useGetMessages = () => {
     if (selectedConversation?._id) getMessages();
   }, [selectedConversation?._id, setMessages]);
 
-  return { messages, loding };
+  return { messages, loading };
 };
 
 export default useGetMessages;

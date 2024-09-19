@@ -11,7 +11,13 @@ export const signup = catchAsync(async (req, res, next) => {
   const newUser = await createUser(req.body);
   const token = generateToken(newUser._id);
   setTokenInCookie(token, res);
-  sendResponse(res, 201, token, newUser);
+  // sendResponse(res, 201, token, newUser);
+  res.status(201).json({
+    _id: newUser._id,
+    fullName: newUser.fullName,
+    username: newUser.username,
+    profilePic: newUser.profilePic,
+  });
 });
 
 export const login = catchAsync(async (req, res, next) => {
@@ -28,7 +34,13 @@ export const login = catchAsync(async (req, res, next) => {
 
   const token = generateToken(user._id);
   setTokenInCookie(token, res);
-  sendResponse(res, 200, token, user);
+  // sendResponse(res, 200, token, user);
+  res.status(200).json({
+    _id: user._id,
+    fullName: user.fullName,
+    username: user.username,
+    profilePic: user.profilePic,
+  });
 });
 
 export const logout = catchAsync(async (req, res, next) => {
