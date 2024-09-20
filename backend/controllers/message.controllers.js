@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 import AppError from "../utils/appError.js";
 import catchAsync from "../utils/catchAsync.js";
 
@@ -27,9 +28,15 @@ export const sendMessage = catchAsync(async (req, res, next) => {
   if (newMessage) {
     conversation.messages.push(newMessage._id);
   }
-
-  //socket IO HERE!!
   await Promise.all([conversation.save(), newMessage.save()]);
+
+
+  // SOCKET IO FUNCTIONALITY WILL GO HERE
+  const receiverSocketId = getReceiverSocketId(receiverId);
+  if (receiverSocketId) {
+    // io.to(<socket_id>).emit() used to send events to specific client
+    io.to(receiverSocketId).emit("newMessage", newMessage);
+  }
 
   res.status(201).json(newMessage);
 });
@@ -37,7 +44,7 @@ export const sendMessage = catchAsync(async (req, res, next) => {
 export const getMessages = catchAsync(async (req, res, next) => {
   const { id: userToChatId } = req.params;
   const senderId = req.user._id;
-  console.log("heiii");
+  
 
   const conversation = await Conversation.findOne({
     participants: { $all: [userToChatId, senderId] },
